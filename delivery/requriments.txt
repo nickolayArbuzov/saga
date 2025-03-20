@@ -1,0 +1,6 @@
+aio_pika
+celery
+fastapi
+psycopg2-binary 
+sqlalchemy 
+uvicorn

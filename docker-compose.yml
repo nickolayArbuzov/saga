@@ -7,6 +7,13 @@ services:
       - ./order-service/.env
     ports:
       - "8001:8000"
+  
+  order-worker:
+    build: ./order-service
+    command: celery -A src.celery_app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+      - db
 
   payment-service:
     build: ./payment-service
@@ -15,12 +22,26 @@ services:
     ports:
       - "8002:8000"
 
+  payment-worker:
+    build: ./payment-service
+    command: celery -A src.celery_app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+      - db
+
   delivery-service:
     build: ./delivery-service
     env_file:
       - ./delivery-service/.env
     ports:
       - "8003:8000"
+
+  delivery-worker:
+    build: ./delivery-service
+    command: celery -A src.celery_app worker --loglevel=info
+    depends_on:
+      - rabbitmq
+      - db
 
   rabbitmq:
     image: rabbitmq:3-management

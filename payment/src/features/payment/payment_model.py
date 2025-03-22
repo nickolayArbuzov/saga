@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Float, Enum
 from database import Base
 
 
-class Payment(Base):
+class PaymentModel(Base):
     __tablename__ = "payments"
     id = Column(String, primary_key=True)
     order_id = Column(String, nullable=False)

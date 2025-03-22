@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Float, Enum
 from database import Base
 
 
-class Outbox(Base):
+class OutboxModel(Base):
     __tablename__ = "outbox"
     id = Column(String, primary_key=True)
     event_type = Column(String, nullable=False)

@@ -15,7 +15,7 @@ services:
     command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
-      - db
+      - postgres
 
   payment-service:
     build: ./payment
@@ -31,7 +31,7 @@ services:
     command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
-      - db
+      - postgres
 
   delivery-service:
     build: ./delivery
@@ -47,7 +47,7 @@ services:
     command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
-      - db
+      - postgres
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -55,7 +55,7 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  db:
+  postgres:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: user
@@ -65,3 +65,14 @@ services:
       - "5432:5432"
     volumes:
       - ./init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres

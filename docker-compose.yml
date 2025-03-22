@@ -2,43 +2,49 @@ version: '3.8'
 
 services:
   order-service:
-    build: ./order-service
+    build: ./order
     env_file:
-      - ./order-service/.env
+      - ./order/.env
     ports:
       - "8001:8000"
+    volumes:
+      - ./order:/app
   
   order-worker:
-    build: ./order-service
-    command: celery -A src.celery_app worker --loglevel=info
+    build: ./order
+    command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
       - db
 
   payment-service:
-    build: ./payment-service
+    build: ./payment
     env_file:
-      - ./payment-service/.env
+      - ./payment/.env
     ports:
       - "8002:8000"
+    volumes:
+      - ./payment:/app
 
   payment-worker:
-    build: ./payment-service
-    command: celery -A src.celery_app worker --loglevel=info
+    build: ./payment
+    command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
       - db
 
   delivery-service:
-    build: ./delivery-service
+    build: ./delivery
     env_file:
-      - ./delivery-service/.env
+      - ./delivery/.env
     ports:
       - "8003:8000"
+    volumes:
+      - ./delivery:/app
 
   delivery-worker:
-    build: ./delivery-service
-    command: celery -A src.celery_app worker --loglevel=info
+    build: ./delivery
+    command: celery -A src.tasks.celery_app worker --loglevel=info
     depends_on:
       - rabbitmq
       - db

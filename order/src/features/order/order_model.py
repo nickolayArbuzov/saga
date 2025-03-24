@@ -1,9 +1,9 @@
 from sqlalchemy import Column, String, Float, Enum
-from database import Base
+from ...database import Base
 
 
 class OrderModel(Base):
-    __tablename__ = "orders"
+    __tablename__ = "order"
     id = Column(String, primary_key=True)
     amount = Column(Float, nullable=False)
     status = Column(

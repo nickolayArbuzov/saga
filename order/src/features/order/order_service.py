@@ -26,13 +26,13 @@ class OrderService:
 
         await db.execute(insert(OrderModel).values(**order_data))
 
-        outbox_event_data = {
+        outbox_data = {
             "id": str(uuid.uuid4()),
             "event_type": event_type,
             "payload": {"order_id": order_id, "amount": amount},
             "created_at": datetime.utcnow(),
             "processed": False,
         }
-        await db.execute(insert(OutboxModel).values(**outbox_event_data))
+        await db.execute(insert(OutboxModel).values(**outbox_data))
 
         await db.commit()

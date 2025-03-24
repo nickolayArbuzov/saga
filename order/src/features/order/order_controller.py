@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Body, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
 from src.dependencies import get_db
-from tasks.celery_app import celery_app
+from ...tasks.celery_app import celery_app
 from .order_service import OrderService
 
 

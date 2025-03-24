@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Float, Enum
-from database import Base
+from ...database import Base
 
 
 class PaymentModel(Base):
@@ -8,5 +8,6 @@ class PaymentModel(Base):
     order_id = Column(String, nullable=False)
     amount = Column(Float, nullable=False)
     status = Column(
-        Enum("PENDING", "COMPLETED", "FAILED", "REFUNDED"), default="PENDING"
+        Enum("PENDING", "COMPLETED", "FAILED", "REFUNDED", name="payment_status_enum"),
+        default="PENDING",
     )

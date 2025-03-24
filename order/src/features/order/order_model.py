@@ -7,5 +7,6 @@ class OrderModel(Base):
     id = Column(String, primary_key=True)
     amount = Column(Float, nullable=False)
     status = Column(
-        Enum("CREATED", "PAID", "DELIVERED", "CANCELLED"), default="CREATED"
+        Enum("CREATED", "PAID", "DELIVERED", "CANCELLED", name="order_status_enum"),
+        default="CREATED",
     )

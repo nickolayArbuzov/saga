@@ -7,4 +7,6 @@ class OutboxModel(Base):
     id = Column(String, primary_key=True)
     event_type = Column(String, nullable=False)
     payload = Column(String, nullable=False)
-    sent = Column(Enum("true", "false"), default="false")
+    sent = Column(
+        Enum("true", "false", name="delivery_outbox_status_enum"), default="false"
+    )

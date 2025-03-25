@@ -1,6 +1,4 @@
 import uuid
-from datetime import datetime
-from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert
@@ -14,25 +12,23 @@ class OrderService:
         self.session = session
 
     async def create_order_and_outbox(
-        order_id: str, amount: float, event_type: str, db: AsyncSession
+        self, order_id: str, amount: float, event_type: str
     ) -> None:
 
         order_data = {
             "id": order_id,
             "amount": amount,
-            "status": "pending",
-            "created_at": datetime.utcnow(),
+            "status": "CREATED",
         }
 
-        await db.execute(insert(OrderModel).values(**order_data))
+        await self.session.execute(insert(OrderModel).values(**order_data))
 
         outbox_data = {
             "id": str(uuid.uuid4()),
             "event_type": event_type,
             "payload": {"order_id": order_id, "amount": amount},
-            "created_at": datetime.utcnow(),
-            "processed": False,
+            "sent": False,
         }
-        await db.execute(insert(OutboxModel).values(**outbox_data))
+        await self.session.execute(insert(OutboxModel).values(**outbox_data))
 
-        await db.commit()
+        await self.session.commit()

@@ -20,6 +20,8 @@ async def create_order(
     order_id = str(uuid.uuid4())
     await service.create_order_and_outbox(order_id, amount, "payment.process")
     celery_app.send_task(
-        "payment.process", args=[{"order_id": order_id, "amount": amount}]
+        "payment.process",
+        args=[{"order_id": order_id, "amount": amount}],
+        queue="payment_queue",
     )
     return {"order_id": order_id, "status": "processing"}

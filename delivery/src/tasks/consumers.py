@@ -1,4 +1,4 @@
-from tasks.celery_app import celery_app
+from .celery_app import celery_app
 from core.services import schedule_delivery
 
 

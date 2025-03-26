@@ -13,14 +13,16 @@ services:
       postgres:
         condition: service_healthy
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
   
   order-worker:
     build: ./order
     command: celery -A src.tasks.celery_app worker --loglevel=info -Q order_queue
     depends_on:
-      - rabbitmq
-      - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   payment-service:
     build: ./payment
@@ -34,14 +36,16 @@ services:
       postgres:
         condition: service_healthy
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
 
   payment-worker:
     build: ./payment
     command: celery -A src.tasks.celery_app worker --loglevel=info -Q payment_queue
     depends_on:
-      - rabbitmq
-      - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   delivery-service:
     build: ./delivery
@@ -55,20 +59,27 @@ services:
       postgres:
         condition: service_healthy
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
 
   delivery-worker:
     build: ./delivery
     command: celery -A src.tasks.celery_app worker --loglevel=info -Q delivery_queue
     depends_on:
-      - rabbitmq
-      - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   postgres:
     image: postgres:16-alpine
@@ -96,7 +107,8 @@ services:
     ports:
       - "5050:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   flower:
     image: mher/flower:latest
@@ -105,4 +117,5 @@ services:
     ports:
       - "5555:5555"
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy

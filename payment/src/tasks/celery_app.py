@@ -14,7 +14,7 @@ celery_app.conf.task_routes = {
 
 celery_app.conf.beat_schedule = {
     "send-outbox-every-minute": {
-        "task": "src.tasks.outbox_publisher.send_outbox_events",
+        "task": "src.tasks.payment_publisher.send_outbox_events",
         "schedule": 60.0,
     },
 }

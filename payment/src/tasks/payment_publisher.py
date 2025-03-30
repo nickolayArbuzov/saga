@@ -15,9 +15,9 @@ def send_outbox_events():
         )
         for event in events:
             celery_app.send_task(
-                event.type,
+                event.event_type,
                 args=[{"payload": event.payload}],
-                queue="payment_queue",
+                queue=f"{event.event_type.split('.')[0]}_queue",
             )
             event.sent = True
         session.commit()

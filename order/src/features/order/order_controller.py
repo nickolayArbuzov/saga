@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, Body, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
 from src.dependencies import get_db
-from ...tasks.celery_app import celery_app
-from .order_service import OrderService
+from src.features.order.order_service import OrderService
 
 
 router = APIRouter()
@@ -19,9 +18,4 @@ async def create_order(
 ):
     order_id = str(uuid.uuid4())
     await service.create_order_and_outbox(order_id, amount, "payment.process")
-    celery_app.send_task(
-        "payment.process",
-        args=[{"order_id": order_id, "amount": amount}],
-        queue="payment_queue",
-    )
     return {"order_id": order_id, "status": "processing"}

@@ -1,10 +1,10 @@
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 
-from ..outbox.outbox_model import OutboxModel
-from .order_model import OrderModel
+from src.features.outbox.outbox_model import OutboxModel
+from src.features.order.order_model import OrderModel
 
 
 class OrderService:

@@ -24,6 +24,15 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  order-beat:
+    build: ./order
+    command: celery -A src.tasks.celery_app beat --loglevel=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
   payment-service:
     build: ./payment
     env_file:
@@ -47,6 +56,15 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  payment-beat:
+    build: ./payment
+    command: celery -A src.tasks.celery_app beat --loglevel=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
   delivery-service:
     build: ./delivery
     env_file:
@@ -64,6 +82,15 @@ services:
   delivery-worker:
     build: ./delivery
     command: celery -A src.tasks.celery_app worker --loglevel=info -Q delivery_queue
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  
+  delivery-beat:
+    build: ./delivery
+    command: celery -A src.tasks.celery_app beat --loglevel=info
     depends_on:
       postgres:
         condition: service_healthy

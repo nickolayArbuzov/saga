@@ -2,11 +2,16 @@ from pydantic_settings import BaseSettings
 
 
 class Database(BaseSettings):
-    DATABASE_URL: str
+    ASYNC_DATABASE_URL: str
+    SYNC_DATABASE_URL: str
 
     @property
-    def database_url(self) -> str:
-        return self.DATABASE_URL
+    def async_database_url(self) -> str:
+        return self.ASYNC_DATABASE_URL
+
+    @property
+    def sync_database_url(self) -> str:
+        return self.SYNC_DATABASE_URL
 
     class Config:
         env_file = ".env"

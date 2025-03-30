@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Float, Enum
-from ...database import Base
+from src.database import Base
 
 
 class PaymentModel(Base):

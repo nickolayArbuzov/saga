@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Enum
-from ...database import Base
+from src.database import Base
 
 
 class DeliveryModel(Base):

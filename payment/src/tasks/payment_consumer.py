@@ -1,5 +1,5 @@
-from .celery_app import celery_app
-from ..features.payment.payment_service import process_payment
+from src.tasks.celery_app import celery_app
+from src.features.payment.payment_service import process_payment
 
 
 @celery_app.task(name="payment.process", acks_late=True)

@@ -5,7 +5,7 @@ celery_app = Celery(
     "payment_service",
     broker="amqp://guest:guest@rabbitmq:5672//",
     backend="rpc://",
-    include=["src.tasks.outbox_publisher"],
+    include=["src.tasks.payment_publisher", "src.tasks.payment_consumer"],
 )
 celery_app.conf.task_default_queue = "payment_queue"
 celery_app.conf.task_routes = {

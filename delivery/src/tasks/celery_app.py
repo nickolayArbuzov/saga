@@ -5,7 +5,7 @@ celery_app = Celery(
     "delivery_service",
     broker="amqp://guest:guest@rabbitmq:5672//",
     backend="rpc://",
-    include=["src.tasks.outbox_publisher"],
+    include=["src.tasks.delivery_publisher", "src.tasks.delivery_consumer"],
 )
 celery_app.conf.task_default_queue = "delivery_queue"
 celery_app.conf.task_routes = {

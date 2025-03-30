@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Boolean
 from sqlalchemy.dialects.postgresql import JSONB
-from ...database import Base
+from src.database import Base
 
 
 class OutboxModel(Base):

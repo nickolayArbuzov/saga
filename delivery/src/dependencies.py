@@ -1,4 +1,4 @@
-from .database import AsyncSessionLocal
+from src.database import AsyncSessionLocal
 
 
 async def get_db():

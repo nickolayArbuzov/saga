@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.database import Base, engine
+from src.database import Base, create_async_engine
 
 from src.features.payment import payment_model
 from src.features.outbox import outbox_model
 
 
 async def lifespan(app):
-    async with engine.begin() as conn:
+    async with create_async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     yield
 

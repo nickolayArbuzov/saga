@@ -7,13 +7,11 @@ from src.features.outbox.outbox_model import OutboxModel
 from src.features.order.order_model import OrderModel
 
 
-class OrderService:
+class CreateOrderUseCase:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create_order_and_outbox(
-        self, order_id: str, amount: float, event_type: str
-    ) -> None:
+    async def execute(self, order_id: str, amount: float, event_type: str) -> None:
 
         order_data = {
             "id": order_id,

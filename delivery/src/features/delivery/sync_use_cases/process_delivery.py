@@ -12,10 +12,10 @@ class ProcessDeliveryUseCase:
 
     def execute(self, payload) -> None:
         existing = (
-            self.session.query(InboxModel)
-            .filter_by(event_id=payload["event_id"])
-            .one_or_none()
-        )
+            self.session.execute(
+                select(InboxModel).where(InboxModel.event_id == payload["event_id"])
+            )
+        ).one_or_none()
         if existing is not None:
             return
 

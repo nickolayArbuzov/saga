@@ -12,10 +12,10 @@ class ProcessOrderUseCase:
 
     def execute(self, payload) -> None:
         existing = (
-            self.session.query(InboxModel)
-            .filter_by(event_id=payload["event_id"])
-            .one_or_none()
-        )
+            self.session.execute(
+                select(InboxModel).where(InboxModel.event_id == payload["event_id"])
+            )
+        ).one_or_none()
         if existing is not None:
             return
 
@@ -24,5 +24,5 @@ class ProcessOrderUseCase:
             payload=payload,
             processed=False,
         )
-        self.session.add(inbox_event)
+        self.session.execute(insert(InboxModel).values(**inbox_event))
         self.session.commit()

@@ -9,5 +9,18 @@ class WebhookDeliveryUseCase:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def execute(self, payload) -> None:
-        print("payload", payload)
+    async def execute(self, order_id, result) -> None:
+        if result == "process":
+            outbox_data = {
+                "event_type": "order.process",
+                "payload": {"order_id": order_id},
+                "sent": False,
+            }
+        elif result == "rollback":
+            outbox_data = {
+                "event_type": "payment.rollback",
+                "payload": {"order_id": order_id},
+                "sent": False,
+            }
+
+        await self.session.execute(insert(OutboxModel).values(**outbox_data))

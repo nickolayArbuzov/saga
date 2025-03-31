@@ -2,13 +2,12 @@ from sqlalchemy.orm import Session
 from sqlalchemy import insert, select
 
 from src.features.outbox.outbox_model import OutboxModel
-from src.features.payment.payment_model import PaymentModel
+from src.features.order.order_model import OrderModel
 
 
-class ProcessPaymentUseCase:
+class RollbackOrderUseCase:
     def __init__(self, session: Session):
         self.session = session
 
     def execute(self, payload) -> None:
-        # send req to payment-system
-        pass
+        print("payload", payload)

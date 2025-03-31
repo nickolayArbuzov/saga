@@ -16,9 +16,9 @@ def get_webhook_delivery_usecase(db: AsyncSession = Depends(get_db)):
 
 @router.post("/webhook-delivery")
 async def create_order(
-    amount: float,
+    order_id: str,
+    result: str,
     usecase: WebhookDeliveryUseCase = Depends(get_webhook_delivery_usecase),
 ):
-    order_id = str(uuid.uuid4())
-    await usecase.execute(order_id, amount, "payment.process")
+    await usecase.execute(order_id, result)
     return {"order_id": order_id, "status": "processing"}

@@ -5,7 +5,7 @@ from src.features.outbox.outbox_model import OutboxModel
 from src.features.payment.payment_model import PaymentModel
 
 
-class ProcessPaymentUseCase:
+class RollbackPaymentUseCase:
     def __init__(self, session: Session):
         self.session = session
 

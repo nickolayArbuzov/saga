@@ -3,8 +3,8 @@ import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert, select
 
-from src.features.outbox.outbox_model import OutboxModel
 from src.features.order.order_model import OrderModel
+from src.features.outbox.outbox_model import OutboxModel
 
 
 class CreateOrderUseCase:
@@ -23,7 +23,11 @@ class CreateOrderUseCase:
 
         outbox_data = {
             "event_type": "payment.process",
-            "payload": {"order_id": order_id, "amount": amount},
+            "payload": {
+                "order_id": order_id,
+                "amount": amount,
+                "event_id": str(uuid.uuid4()),
+            },
             "sent": False,
         }
         await self.session.execute(insert(OutboxModel).values(**outbox_data))

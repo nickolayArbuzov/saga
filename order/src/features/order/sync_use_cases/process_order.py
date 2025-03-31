@@ -1,8 +1,9 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import insert, select
 
-from src.features.outbox.outbox_model import OutboxModel
 from src.features.order.order_model import OrderModel
+from src.features.outbox.outbox_model import OutboxModel
+from src.features.inbox.inbox_model import InboxModel
 
 
 class ProcessOrderUseCase:
@@ -10,4 +11,18 @@ class ProcessOrderUseCase:
         self.session = session
 
     def execute(self, payload) -> None:
-        print("payload", payload)
+        existing = (
+            self.session.query(InboxModel)
+            .filter_by(event_id=payload["event_id"])
+            .one_or_none()
+        )
+        if existing is not None:
+            return
+
+        inbox_event = InboxModel(
+            event_id=payload["event_id"],
+            payload=payload,
+            processed=False,
+        )
+        self.session.add(inbox_event)
+        self.session.commit()

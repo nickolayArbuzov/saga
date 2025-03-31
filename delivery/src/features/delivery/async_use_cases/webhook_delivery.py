@@ -1,8 +1,9 @@
+import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import insert, select
 
-from src.features.outbox.outbox_model import OutboxModel
 from src.features.delivery.delivery_model import DeliveryModel
+from src.features.outbox.outbox_model import OutboxModel
 
 
 class WebhookDeliveryUseCase:
@@ -13,13 +14,19 @@ class WebhookDeliveryUseCase:
         if result == "process":
             outbox_data = {
                 "event_type": "order.process",
-                "payload": {"order_id": order_id},
+                "payload": {
+                    "order_id": order_id,
+                    "event_id": str(uuid.uuid4()),
+                },
                 "sent": False,
             }
         elif result == "rollback":
             outbox_data = {
                 "event_type": "payment.rollback",
-                "payload": {"order_id": order_id},
+                "payload": {
+                    "order_id": order_id,
+                    "event_id": str(uuid.uuid4()),
+                },
                 "sent": False,
             }
 

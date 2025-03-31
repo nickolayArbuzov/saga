@@ -24,5 +24,5 @@ class ProcessDeliveryUseCase:
             payload=payload,
             processed=False,
         )
-        self.session.add(inbox_event)
+        self.session.execute(insert(InboxModel).values(**inbox_event))
         self.session.commit()

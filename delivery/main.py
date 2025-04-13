@@ -2,8 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.database import Base, async_engine
 
+from src.features.delivery import delivery_controller
 from src.features.delivery import delivery_model
 from src.features.outbox import outbox_model
+from src.features.inbox import inbox_model
 
 
 async def lifespan(app):
@@ -20,3 +22,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(delivery_controller.router, prefix="/api", tags=["delivery"])

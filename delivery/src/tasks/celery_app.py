@@ -4,7 +4,7 @@ from celery import Celery
 celery_app = Celery(
     "delivery_service",
     broker="amqp://guest:guest@rabbitmq:5672//",
-    backend="rpc://",
+    backend=None,
     include=["src.tasks.delivery_publisher", "src.tasks.delivery_consumer"],
 )
 celery_app.conf.task_default_queue = "delivery_queue"

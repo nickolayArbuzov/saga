@@ -5,6 +5,7 @@ from src.database import Base, async_engine
 from src.features.order import order_controller
 from src.features.order import order_model
 from src.features.outbox import outbox_model
+from src.features.inbox import inbox_model
 
 
 async def lifespan(app):

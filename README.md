@@ -1,6 +1,6 @@
 # 🧪 test-project
 
-**Microservice-ready application** with **Saga pattern**, **Outbox & Inbox**, and **Celery + RabbitMQ** for async processing.
+**Microservice-ready application** with **Saga pattern**, **Outbox & Inbox**, and **RabbitMQ** for async processing.
 
 ---
 
@@ -9,7 +9,6 @@
 - ⚙️ **Saga Pattern** for distributed transactions
 - 📬 **Outbox / Inbox** patterns for reliable messaging
 - 🐇 **RabbitMQ** as message broker
-- 🥬 **Celery** for background job processing
 - 🐳 **Docker Compose** for easy local setup
 
 ---
@@ -18,7 +17,6 @@
 
 - 🐍 Python / FastAPI
 - 🐘 PostgreSQL
-- 🥬 Celery
 - 🐇 RabbitMQ
 - 🛠️ SQLAlchemy (async)
 - 🐳 Docker / docker-compose
@@ -48,10 +46,8 @@ docker-compose up
 - 🐘 **PostgreSQL database** — accessible on port `5432`
 - 🧭 **pgAdmin dashboard** — [http://localhost:5050](http://localhost:5050)
 - 🐇 **RabbitMQ Broker** - 🖥 [http://localhost:15672](http://localhost:15672)
-- 🥬 **Celery Workes**
-- 🌼 **Flower Dashboard** - Celery task monitor UI 📊 http://localhost:5555
 
-> 📌 **Make sure ports** `8001`, `8002`, `8003`, `5432`, `5050`, `5672`, `15672`, and `5555` are available on your machine.
+> 📌 **Make sure ports** `8001`, `8002`, `8003`, `5432`, `5050`, `5672`, and `15672` are available on your machine.
 
 ## 📘 API Documentation of entry-point order
 

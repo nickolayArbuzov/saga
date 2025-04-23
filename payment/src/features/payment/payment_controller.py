@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Body, Path
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.features.payment.async_use_cases.webhook_payment import WebhookPaymentUseCase
+from src.features.payment.usecases.webhook_payment import WebhookPaymentUseCase
 from src.dependencies import get_db
 
 

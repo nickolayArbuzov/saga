@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Body, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
-from src.features.order.async_use_cases.create_order import CreateOrderUseCase
+from src.features.order.usecases.create_order import CreateOrderUseCase
 from src.dependencies import get_db
 
 

@@ -1,16 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import asyncio
+from src.broker.subscriber import start_consumer
 from src.database import Base, async_engine
 
 from src.features.delivery import delivery_controller
 from src.features.delivery import delivery_model
 from src.features.outbox import outbox_model
+from src.features.outbox.cron import run_outbox_publisher
 from src.features.inbox import inbox_model
 
 
 async def lifespan(app):
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    asyncio.create_task(run_outbox_publisher())
+    asyncio.create_task(start_consumer())
     yield
 
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Body, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 import uuid
-from src.features.delivery.async_use_cases.webhook_delivery import (
+from src.features.delivery.usecases.webhook_delivery import (
     WebhookDeliveryUseCase,
 )
 from src.dependencies import get_db

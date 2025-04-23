@@ -7,7 +7,7 @@ from src.features.order.order_model import OrderModel
 from src.features.outbox.outbox_model import OutboxModel
 
 
-class CreateOrderUseCase:
+class CancelOrderUseCase:
     def __init__(self, session: AsyncSession):
         self.session = session
 
@@ -32,5 +32,4 @@ class CreateOrderUseCase:
         }
         await self.session.execute(insert(OutboxModel).values(**outbox_data))
 
-        await self.session.commit()
         return order_id

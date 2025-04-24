@@ -28,7 +28,7 @@ class FinalOrderUseCase:
                 "amount": amount,
                 "event_id": str(uuid.uuid4()),
             },
-            "sent": False,
+            "processed": False,
         }
         await self.session.execute(insert(OutboxModel).values(**outbox_data))
 

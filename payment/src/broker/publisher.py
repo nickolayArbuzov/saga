@@ -6,6 +6,7 @@ from src.settings import rabbitmq_settings
 async def publish_event(
     event_type: str, payload: dict, routing_key: str = "order.events"
 ):
+
     connection = await aio_pika.connect_robust(rabbitmq_settings.rabbitmq_url)
     channel = await connection.channel()
     message = aio_pika.Message(

@@ -8,4 +8,4 @@ class OutboxModel(Base):
     id = Column(Integer, primary_key=True, index=True)
     event_type = Column(String, nullable=False)
     payload = Column(JSONB, nullable=False)
-    sent = Column(Boolean, default=False)
+    processed = Column(Boolean, default=False)

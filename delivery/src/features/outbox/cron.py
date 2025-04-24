@@ -20,4 +20,4 @@ async def run_outbox_publisher():
                     .where(OutboxModel.id == event.id)
                     .values(processed=True)
                 )
-        await asyncio.sleep(5)
+        await asyncio.sleep(60)

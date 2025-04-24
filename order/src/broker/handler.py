@@ -1,5 +1,5 @@
+from sqlalchemy import select
 from aio_pika import IncomingMessage
-from uuid import UUID
 import json
 from src.dependencies import session_scope
 from src.database import AsyncSessionLocal
@@ -17,17 +17,21 @@ async def on_message(msg: IncomingMessage):
     async with msg.process(requeue=True):
         try:
             body = json.loads(msg.body)
-            message_id = UUID(body["message_id"])
             event_type = body["event_type"]
             payload = body["payload"]
+            event_id = payload["event_id"]
 
             async with session_scope(AsyncSessionLocal) as session:
-                exists = await session.get(InboxModel, message_id)
+                exists = (
+                    await session.execute(
+                        select(InboxModel).where(InboxModel.event_id == event_id)
+                    )
+                ).scalar_one_or_none()
                 if exists:
                     return
 
                 session.add(
-                    InboxModel(id=message_id, event_type=event_type, payload=payload)
+                    InboxModel(event_id=event_id, payload=payload, processed=False)
                 )
 
                 usecase_class = USECASE_MAP.get(event_type)

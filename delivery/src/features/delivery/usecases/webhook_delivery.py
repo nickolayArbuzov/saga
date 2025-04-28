@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import insert, select
+from sqlalchemy import insert, update
 
 from src.features.delivery.delivery_model import DeliveryModel
 from src.features.outbox.outbox_model import OutboxModel
@@ -20,6 +20,7 @@ class WebhookDeliveryUseCase:
                 },
                 "processed": False,
             }
+            delivery_status = "COMPLETED"
         elif result == "rollback":
             outbox_data = {
                 "event_type": "payment.rollback",
@@ -29,5 +30,12 @@ class WebhookDeliveryUseCase:
                 },
                 "processed": False,
             }
+            delivery_status = "CANCELED"
+
+        await self.session.execute(
+            update(DeliveryModel)
+            .where(DeliveryModel.order_id == order_id)
+            .values(status=delivery_status)
+        )
 
         await self.session.execute(insert(OutboxModel).values(**outbox_data))

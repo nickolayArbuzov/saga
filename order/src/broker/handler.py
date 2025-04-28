@@ -4,11 +4,11 @@ import json
 from src.dependencies import session_scope
 from src.database import AsyncSessionLocal
 from src.features.inbox.inbox_model import InboxModel
-from src.features.order.usecases.final_order import FinalOrderUseCase
+from src.features.order.usecases.complete_order import CompleteOrderUseCase
 from src.features.order.usecases.cancel_order import CancelOrderUseCase
 
 USECASE_MAP = {
-    "order.process": FinalOrderUseCase,
+    "order.process": CompleteOrderUseCase,
     "order.rollback": CancelOrderUseCase,
 }
 

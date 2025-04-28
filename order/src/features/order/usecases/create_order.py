@@ -12,17 +12,20 @@ class CreateOrderUseCase:
         self.session = session
 
     async def execute(self, amount: float) -> None:
-        order_id = str(uuid.uuid4())
         order_data = {
-            "id": order_id,
             "amount": amount,
-            "status": "CREATED",
+            "status": "PROCESSED",
         }
 
-        await self.session.execute(insert(OrderModel).values(**order_data))
+        order_id = (
+            await self.session.execute(
+                insert(OrderModel).values(**order_data).returning(OrderModel.id)
+            )
+        ).scalar_one()
 
         outbox_data = {
             "event_type": "payment.process",
+            "routing_key": "payment.events",
             "payload": {
                 "order_id": order_id,
                 "amount": amount,

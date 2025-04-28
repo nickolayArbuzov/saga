@@ -33,7 +33,7 @@ async def on_message(msg: IncomingMessage):
                 session.add(
                     InboxModel(event_id=event_id, payload=payload, processed=False)
                 )
-
+                print("event_id---", event_id)
                 usecase_class = USECASE_MAP.get(event_type)
                 if usecase_class:
                     await usecase_class(session).execute(payload)

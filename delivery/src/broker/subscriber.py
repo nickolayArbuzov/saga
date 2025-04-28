@@ -7,5 +7,5 @@ async def start_consumer():
     connection = await aio_pika.connect_robust(rabbitmq_settings.rabbitmq_url)
     channel = await connection.channel()
 
-    queue = await channel.declare_queue("order.events", durable=True)
+    queue = await channel.declare_queue("delivery.events", durable=True)
     await queue.consume(on_message)

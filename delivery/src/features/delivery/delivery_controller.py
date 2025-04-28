@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends, Body, Path
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-import uuid
 from src.features.delivery.usecases.webhook_delivery import (
     WebhookDeliveryUseCase,
 )
@@ -21,4 +20,4 @@ async def create_order(
     usecase: WebhookDeliveryUseCase = Depends(get_webhook_delivery_usecase),
 ):
     await usecase.execute(order_id, result)
-    return {"order_id": order_id, "status": "processing"}
+    return {"status": "ok"}

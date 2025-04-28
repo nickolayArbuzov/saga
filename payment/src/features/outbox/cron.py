@@ -14,7 +14,7 @@ async def run_outbox_publisher():
             )
             events = result.scalars().all()
             for event in events:
-                await publish_event(event.event_type, event.payload)
+                await publish_event(event.event_type, event.payload, event.routing_key)
                 await session.execute(
                     update(OutboxModel)
                     .where(OutboxModel.id == event.id)

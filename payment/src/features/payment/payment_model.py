@@ -15,5 +15,5 @@ class PaymentModel(Base):
             "CANCELED",
             name="payment_status_enum",
         ),
-        default="PROCESS",
+        default="PROCESSED",
     )

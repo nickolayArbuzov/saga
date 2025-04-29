@@ -9,7 +9,6 @@ class CancelPaymentUseCase:
         self.session = session
 
     async def execute(self, payload: dict) -> None:
-
         await self.session.execute(
             update(PaymentModel)
             .where(PaymentModel.order_id == payload["order_id"])

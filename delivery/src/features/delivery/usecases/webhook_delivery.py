@@ -13,7 +13,7 @@ class WebhookDeliveryUseCase:
     async def execute(self, order_id, result) -> None:
         if result == "process":
             outbox_data = {
-                "event_type": "order.process",
+                "event_type": "order.complete",
                 "payload": {
                     "order_id": order_id,
                     "event_id": str(uuid.uuid4()),

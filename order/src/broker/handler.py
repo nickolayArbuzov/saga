@@ -8,7 +8,7 @@ from src.features.order.usecases.complete_order import CompleteOrderUseCase
 from src.features.order.usecases.cancel_order import CancelOrderUseCase
 
 USECASE_MAP = {
-    "order.process": CompleteOrderUseCase,
+    "order.complete": CompleteOrderUseCase,
     "order.rollback": CancelOrderUseCase,
 }
 

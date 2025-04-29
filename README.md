@@ -1,6 +1,4 @@
-# 🧪 test-project
-
-**Microservice-ready application** with **Saga pattern**, **Outbox & Inbox**, and **RabbitMQ** for async processing.
+**Microservice-ready template** with **Saga pattern**, **Outbox & Inbox**, and **RabbitMQ** for async processing.
 
 ---
 

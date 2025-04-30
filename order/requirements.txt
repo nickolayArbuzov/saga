@@ -1,6 +1,5 @@
 aio_pika
 asyncpg
-celery
 fastapi
 psycopg2-binary
 pydantic-settings

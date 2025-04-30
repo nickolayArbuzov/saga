@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.features.delivery.usecases.webhook_delivery import (
-    WebhookDeliveryUseCase,
-)
+from src.features.delivery.usecases.webhook_delivery import WebhookDeliveryUseCase
+from src.features.delivery.delivery_schema import WebhookDeliveryPayload
 from src.dependencies import get_db
 
 
@@ -14,10 +13,9 @@ def get_webhook_delivery_usecase(db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/webhook-delivery")
-async def create_order(
-    order_id: str,
-    result: str,
+async def webhook_delivery(
+    payload: WebhookDeliveryPayload,
     usecase: WebhookDeliveryUseCase = Depends(get_webhook_delivery_usecase),
 ):
-    await usecase.execute(order_id, result)
+    await usecase.execute(payload)
     return {"status": "ok"}

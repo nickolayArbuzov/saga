@@ -14,7 +14,7 @@ class CreateDeliveryUseCase:
             "amount": payload["amount"],
             "status": "PROCESSED",
         }
-
         await self.session.execute(insert(DeliveryModel).values(**delivery_data))
 
-        # integrate with delivery-service
+        # integrate with external delivery-service and wait for webhook trigger
+

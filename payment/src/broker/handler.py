@@ -20,20 +20,20 @@ async def on_message(msg: IncomingMessage):
             event_type = body["event_type"]
             payload = body["payload"]
             event_id = payload["event_id"]
+
             async with session_scope(AsyncSessionLocal) as session:
                 exists = (
                     await session.execute(
                         select(InboxModel).where(InboxModel.event_id == event_id)
                     )
                 ).scalar_one_or_none()
-
                 if exists:
                     return
 
                 session.add(
                     InboxModel(event_id=event_id, payload=payload, processed=False)
                 )
-                print("event_id---", event_id)
+
                 usecase_class = USECASE_MAP.get(event_type)
                 if usecase_class:
                     await usecase_class(session).execute(payload)

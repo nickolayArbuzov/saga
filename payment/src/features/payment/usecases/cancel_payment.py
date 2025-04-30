@@ -15,4 +15,4 @@ class CancelPaymentUseCase:
             .values(status="CANCELING")
         )
 
-        # integrate with payment-service
+    # integrate with external payment-service and wait for webhook trigger

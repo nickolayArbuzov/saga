@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.features.payment.usecases.webhook_payment import WebhookPaymentUseCase
+from src.features.payment.payment_schema import WebhookPaymentPayload
 from src.dependencies import get_db
 
 
@@ -13,9 +14,8 @@ def get_webhook_payment_usecase(db: AsyncSession = Depends(get_db)):
 
 @router.post("/webhook-payment")
 async def webhook_payment(
-    order_id: str,
-    result: str,
+    payload: WebhookPaymentPayload,
     usecase: WebhookPaymentUseCase = Depends(get_webhook_payment_usecase),
 ):
-    await usecase.execute(order_id, result)
+    await usecase.execute(payload)
     return {"status": "ok"}

@@ -16,4 +16,5 @@ class CreatePaymentUseCase:
         }
         await self.session.execute(insert(PaymentModel).values(**payment_data))
 
-        # integrate with payment-service
+        # integrate with external payment-service and wait for webhook trigger
+

@@ -10,7 +10,7 @@ async def run_outbox_publisher():
     while True:
         async with session_scope(AsyncSessionLocal) as session:
             result = await session.execute(
-                select(OutboxModel).where(OutboxModel.processed == False).limit(10)
+                select(OutboxModel).where(OutboxModel.processed == False)
             )
             events = result.scalars().all()
             for event in events:
@@ -21,3 +21,4 @@ async def run_outbox_publisher():
                     .values(processed=True)
                 )
         await asyncio.sleep(60)
+
